@@ -1,5 +1,7 @@
 from app import app
+from flask import url_for
+
 
 @app.route("/")
 def route_index():
-    return "hello w"
+    return url_for('auth.login_route')

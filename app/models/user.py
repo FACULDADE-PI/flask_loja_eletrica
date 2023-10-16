@@ -5,6 +5,8 @@ from app.utils import hash_pass, current_time
 
 
 class Users(UserMixin, db.Model):
+    __tablename__ = "painel_users"
+    
     Id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)

@@ -16,7 +16,7 @@ function registrar_usuario() {
                 data
             ).then(function() {
                 if (data.hasOwnProperty('icon') && data['icon'] == 'success'){
-                    window.location.href="/login"
+                    window.location.href="/"
                 }
             });
         });

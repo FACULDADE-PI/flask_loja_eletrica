@@ -1,5 +1,5 @@
 from app.blueprints import auth
-from app.models import Users
+from app.models import PainelUsers
 from app.utils import verify_pass
 from flask import render_template, jsonify, request
 
@@ -31,7 +31,7 @@ def route_login_user():
             "text": "A sua senha deve possuir no mínimo 6 caracteres"
         }), 200
 
-    user = Users.query.filter_by(email=email_usuario.lower()).first()
+    user = PainelUsers.query.filter_by(email=email_usuario.lower()).first()
     if not user:
         return jsonify({
             "icon": "error",

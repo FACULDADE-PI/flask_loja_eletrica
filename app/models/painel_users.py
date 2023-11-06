@@ -3,8 +3,7 @@ from flask_login import UserMixin
 from app.utils import hash_pass, current_time
 
 
-
-class Users(UserMixin, db.Model):
+class PainelUsers(UserMixin, db.Model):
     __tablename__ = "painel_users"
     
     Id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -12,7 +11,8 @@ class Users(UserMixin, db.Model):
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     date_joined = db.Column(db.DateTime, nullable=True)
-    type_user = db.Column(db.Integer, nullable=False)
+    type_user = db.Column(db.ForeignKey("type_users.Id"))
+
     active = db.Column(db.Boolean, default=False)
 
 
@@ -26,3 +26,4 @@ class Users(UserMixin, db.Model):
 
     def __repr__(self) -> str:
         return str(self.name)
+

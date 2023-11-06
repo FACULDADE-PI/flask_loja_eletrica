@@ -1,5 +1,5 @@
 from app.blueprints import auth
-from app.models import Users
+from app.models import PainelUsers
 from app import db
 from flask import render_template, jsonify, request
 
@@ -46,7 +46,8 @@ def route_register_new_user():
             "title": "Oops, algo deu errado.",
             "text": "O seu nome é inválido."
         }), 200
-
+    
+    # VALIDA NO BANCO
     if Users.query.filter_by(email=email_usuario.lower()).first():
         return jsonify({
             "icon": "error",

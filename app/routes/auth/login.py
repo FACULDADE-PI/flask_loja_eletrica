@@ -1,10 +1,15 @@
 from app.blueprints import auth
 from app.models import PainelUsers
 from app.utils import verify_pass
+from app.middlewares import ifAuthenticatedGoIndex
+from flask_login import current_user, UserMixin, login_user
 from flask import render_template, jsonify, request
 
 
+
+
 @auth.route("/login", methods=["GET"])
+@ifAuthenticatedGoIndex
 def route_login():
     """ Renderiza a view de login do usuário """
     return render_template("auth/login.html")
@@ -14,6 +19,15 @@ def route_login():
 def route_login_user():
     """ Efetua o login do usuário """
     
+    user:UserMixin = current_user
+    if user.is_authenticated:
+        return jsonify({
+            "icon": "success",
+            "title": "Usuário autenticado.",
+            "text": "Você já estava logado préviamente."
+        }), 200
+
+
     email_usuario = request.form.get("email_usuario", "")
     senha_usuario = request.form.get("senha_usuario", "")
 
@@ -46,6 +60,8 @@ def route_login_user():
             "text": "A senha inserida está incorreta. Corrija os dados e refaça o login."
         }), 200
     
+
+    login_user(user, remember=True)
     return jsonify({
         "icon": "success",
         "title": "Usuário autenticado.",

@@ -2,9 +2,12 @@ from app.blueprints import auth
 from app.models import PainelUsers
 from app import db
 from flask import render_template, jsonify, request
+from app.middlewares import ifAuthenticatedGoIndex
+
 
 
 @auth.route("/register", methods=["GET"])
+@ifAuthenticatedGoIndex
 def route_register():
     """ Renderiza a view de efetuar o registro do usuário """
     return render_template("auth/register.html")
@@ -48,7 +51,7 @@ def route_register_new_user():
         }), 200
     
     # VALIDA NO BANCO
-    if Users.query.filter_by(email=email_usuario.lower()).first():
+    if PainelUsers.query.filter_by(email=email_usuario.lower()).first():
         return jsonify({
             "icon": "error",
             "title": "Oops, algo deu errado.",
@@ -56,11 +59,12 @@ def route_register_new_user():
         }), 200
 
 
-    new_user = Users(
+    new_user = PainelUsers(
         email=email_usuario.lower(),
         password=senha_usuario1,
         name=nome_usuario
     )
+    
     db.session.add(new_user)
     db.session.commit()
 

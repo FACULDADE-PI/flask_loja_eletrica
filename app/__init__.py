@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from flask import Flask
 from flask_migrate import Migrate
 from os.path import dirname, abspath
@@ -11,6 +12,9 @@ path = path.rsplit("/", 1)[0]
 # Docs: https://flask-ptbr.readthedocs.io/en/latest/
 app:Flask = Flask(__name__)
 app.config.from_pyfile(path + "/config.py")
+
+# Login manager
+login_manager = LoginManager(app)
 
 # DB Connection -> Gerencia conexão com o banco de dados
 # Docs: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
@@ -26,6 +30,7 @@ from app.blueprints import *
 # Creating blueprint and registering
 # Docs: https://flask.palletsprojects.com/en/2.2.x/tutorial/views/
 app.register_blueprint(auth)
+app.register_blueprint(client)
 
 # Clear Caching Chrome -> Remove o cache criado pelo navegador após a requisição
 @app.after_request

@@ -1,4 +1,4 @@
-from app import db
+from app import db, login_manager
 from flask_login import UserMixin
 from app.utils import hash_pass, current_time
 
@@ -16,6 +16,9 @@ class PainelUsers(UserMixin, db.Model):
     active = db.Column(db.Boolean, default=False)
 
 
+    def get_id(self):
+        return str(self.Id)
+
     def __init__(self, email, password, name):
         self.email = email
         self.password = hash_pass(password)
@@ -25,5 +28,17 @@ class PainelUsers(UserMixin, db.Model):
         self.active = 1 # não precisa validar
 
     def __repr__(self) -> str:
-        return str(self.name)
+        return str(self.Id)
 
+
+
+@login_manager.user_loader
+def user_loader(Id):
+    return PainelUsers.query.filter_by(Id=Id).first()
+
+
+@login_manager.request_loader
+def request_loader(request):
+    email = request.form.get('email')
+    user = PainelUsers.query.filter_by(email=email).first()
+    return user if user else None

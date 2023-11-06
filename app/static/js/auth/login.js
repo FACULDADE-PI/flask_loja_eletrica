@@ -3,9 +3,10 @@
 
 
 function logar_usuario() {
-    //solicitacao_novo_cadastro
-    event.preventDefault()
-    $(document).ready(()=>{
+    // solicitação de login
+    event.preventDefault();
+
+    $(document).ready(() => {
         $.ajax({
             method: "POST",
             url: "/auth/login/user",
@@ -13,20 +14,16 @@ function logar_usuario() {
                 email_usuario: $("#email_usuario").val(),
                 senha_usuario: $("#senha_usuario").val(),
             }
-        }).done((data)=> {
-            Swal.fire(
-                data
-            ).then(function() {
-                if (data.hasOwnProperty('icon') && data['icon'] == 'success'){
-                    //
-                }
-            });
+        }).done((data) => {
+            if (data.hasOwnProperty('icon') && data['icon'] == 'success') {
+                // Redirecionar para a página inicial
+                window.location.href = "/";
+            } else {
+                Swal.fire(data);
+            }
         });
     });
 }
-
-
-
 
 
 

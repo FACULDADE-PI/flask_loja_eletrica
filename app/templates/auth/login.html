@@ -1,6 +1,11 @@
 {% extends '/auth/base.html' %}
 {% block title %}Login{% endblock %}
 
+{% block head %}
+	{{ super() }}	
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">   
+    <script src="{{ url_for('static', filename='js/auth/login.js') }}"></script>
+{% endblock %}
 
 
 {% block content %}
@@ -8,8 +13,8 @@
 		<div class="form-container sign-in-container">
 			<form action="#">
 				<h1>Faça login</h1>
-				<input type="email" placeholder="Email" id="email_usuario"/>
-				<input type="password" placeholder="Senha" id="senha_usuario"/>
+				<input class="login_inputs" type="email" placeholder="Email" id="email_usuario"/>
+				<input class="login_inputs" type="password" placeholder="Senha" id="senha_usuario"/>
 				<!-- <a href="#">Esqueceu a senha?</a> -->
 				<button onclick="logar_usuario()">Login</button>
 			</form>

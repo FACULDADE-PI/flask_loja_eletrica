@@ -1,6 +1,12 @@
 {% extends '/auth/base.html' %}
 {% block title %}Registrar{% endblock %}
 
+{% block head %}
+	{{ super() }}	
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}"> 
+    <script src="{{ url_for('static', filename='js/auth/register.js') }}"></script>
+{% endblock %}
+
 
 {% block content %}
 

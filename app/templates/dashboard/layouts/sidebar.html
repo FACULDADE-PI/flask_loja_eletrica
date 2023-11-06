@@ -1,4 +1,7 @@
 <!-- MENU SIDEBAR-->
+<script src="{{ url_for('static', filename='js/auth/login.js') }}"></script>
+
+
 <aside class="menu-sidebar d-none d-lg-block">
     <div class="logo">
         <a href="{{ url_for('static', filename='index.html') }}">
@@ -31,8 +34,16 @@
 
                 <li>
                     <a href="#">
-                        <i class="fas fa-chart-bar"></i>Início</a>
+                        <i class="fas fa-home"></i>Início</a>
                 </li>
+
+
+                <li>
+                    <a href="#" onclick="deslogar_usuario();">
+                        <i class="fas fa-sign-out-alt"></i>Sair</a>
+                </li>
+
+
 
                 <!-- <li>
                     <a href="{{ url_for('static', filename='table.html') }}">

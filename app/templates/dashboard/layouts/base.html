@@ -35,10 +35,14 @@
     <!-- Main CSS-->
     <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet" media="all">
 
+    <!-- Javascripts -->
+	<script src="{{ url_for('static', filename='js/plugins/sweetalert2.js') }}"></script>
+
 </head>
 
 <body>
     {% include 'dashboard/layouts/sidebar.html' %}
+    {% include 'dashboard/layouts/header.html' %}
     {% block content %}   
     {% endblock %}
 </body>

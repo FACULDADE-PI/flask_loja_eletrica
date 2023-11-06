@@ -2,7 +2,7 @@ from app.blueprints import auth
 from app.models import PainelUsers
 from app.utils import verify_pass
 from app.middlewares import ifAuthenticatedGoIndex
-from flask_login import current_user, UserMixin, login_user
+from flask_login import current_user, UserMixin, login_user, logout_user
 from flask import render_template, jsonify, request
 
 
@@ -13,6 +13,29 @@ from flask import render_template, jsonify, request
 def route_login():
     """ Renderiza a view de login do usuário """
     return render_template("auth/login.html")
+
+
+
+
+
+@auth.route("/logout/user", methods=["POST"])
+def route_logout():
+    """ Efetua o logout do usuário """
+    user:UserMixin = current_user
+    if not user.is_authenticated:
+        return jsonify({
+            "icon": "error",
+            "title": "Oops!",
+            "text": "Você não está logado"
+        }), 200
+
+    logout_user()
+    return jsonify({
+        "icon": "success",
+        "title": "Usuário saiu.",
+        "text": "Você saiu do painel com sucesso."
+    }), 200
+
 
 
 @auth.route("/login/user", methods=["POST"])

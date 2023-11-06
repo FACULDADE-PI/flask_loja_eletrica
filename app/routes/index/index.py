@@ -6,6 +6,7 @@ from flask_login import current_user
 
 
 @client.route("/inicio")
+@isAuthenticated
 def inicio():
     return render_template("dashboard/pages/index.html", user=current_user)
 

@@ -1,4 +1,29 @@
+function deslogar_usuario() {
+    // solicitação de login
+    event.preventDefault();
 
+    $(document).ready(() => {
+        $.ajax({
+            method: "POST",
+            url: "/auth/logout/user",
+        }).done((data) => {
+            // Mostrar mensagem com o resultado da solicitação
+            Swal.fire(data);
+
+            // Agendar o desaparecimento do Swal após 3 segundos
+            setTimeout(() => {
+                Swal.close();
+            }, 3000);
+
+            if (data.hasOwnProperty('icon') && data['icon'] == 'success') {
+                // Agendar redirecionamento após 3 segundos (após o Swal fechar)
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 3000);
+            }
+        });
+    });
+}
 
 
 

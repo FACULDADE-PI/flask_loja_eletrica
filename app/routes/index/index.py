@@ -5,11 +5,11 @@ from app.middlewares import isAuthenticated
 from flask_login import current_user
 
 
+
 @client.route("/inicio")
 @isAuthenticated
 def inicio():
-    return render_template("dashboard/pages/index.html", user=current_user)
-
+    return render_template("dashboard/pages/inicio.html", user=current_user)
 
 
 @app.route("/")

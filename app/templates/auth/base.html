@@ -5,15 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon/lightning-icon.png') }}">
+    
+    <script src="{{ url_for('static', filename='js/auth/login.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/jquery-mask.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/jquery-min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/plugins/sweetalert2.js') }}"></script>
 
-    {% block head %}
-        <title>Loja Elétrica - {% block title %}{% endblock %}</title>
-    {% endblock %}
+    <title>Loja Elétrica - {% block title %}{% endblock %}</title>
 </head>
 
 <body>

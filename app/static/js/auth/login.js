@@ -28,6 +28,9 @@ function deslogar_usuario() {
 
 
 function logar_usuario() {
+    // Impedir a rolagem da página quando o Swal estiver visível
+    document.body.style.overflow = 'hidden';
+
     // solicitação de login
     event.preventDefault();
 
@@ -40,6 +43,9 @@ function logar_usuario() {
                 senha_usuario: $("#senha_usuario").val(),
             }
         }).done((data) => {
+            // Restaurar a rolagem da página quando o Swal for fechado
+            document.body.style.overflow = 'auto';
+
             if (data.hasOwnProperty('icon') && data['icon'] == 'success') {
                 // Redirecionar para a página inicial
                 window.location.href = "/";
@@ -49,7 +55,6 @@ function logar_usuario() {
         });
     });
 }
-
 
 
 function redirect_register() {

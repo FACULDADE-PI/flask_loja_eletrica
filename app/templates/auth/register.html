@@ -1,13 +1,6 @@
 {% extends '/auth/base.html' %}
 {% block title %}Registrar{% endblock %}
 
-{% block head %}
-	{{ super() }}	
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}"> 
-    <script src="{{ url_for('static', filename='js/auth/register.js') }}"></script>
-
-{% endblock %}
-
 
 {% block content %}
 
@@ -15,10 +8,12 @@
 		<div class="form-container sign-up-container">
 			<form>
 				<h1>Registro de usuário</h1>
+				
 				<input type="email" placeholder="Email" id="email_usuario"/>
 				<input type="text" placeholder="Nome" id="nome_usuario"/>
 				<input type="password" placeholder="Senha" id="senha_usuario_1"/>
 				<input type="password" placeholder="Confirme sua senha" id="senha_usuario_2"/>
+
 				<a href="{{ url_for('auth.route_login') }}">Já possui login? Clique aqui</a>
 				<button onclick="registrar_usuario();">Registrar</button>
 			</form>

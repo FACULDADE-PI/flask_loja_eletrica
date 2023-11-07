@@ -11,7 +11,7 @@ class PainelUsers(UserMixin, db.Model):
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     date_joined = db.Column(db.DateTime, nullable=True)
-    type_user = db.Column(db.ForeignKey("type_users.Id"))
+    type_user = db.Column(db.ForeignKey("type_users.Id"), default=0)
 
     active = db.Column(db.Boolean, default=False)
 

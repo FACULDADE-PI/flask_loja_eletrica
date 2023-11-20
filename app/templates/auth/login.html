@@ -15,7 +15,7 @@
 				<h1>Faça login</h1>
 				<input class="login_inputs" type="email" placeholder="Email" id="email_usuario"/>
 				<input class="login_inputs" type="password" placeholder="Senha" id="senha_usuario"/>
-				<!-- <a href="#">Esqueceu a senha?</a> -->
+				<a href="{{ url_for('auth.route_redefinir') }}">Esqueceu a senha? Clique aqui</a>
 				<button onclick="logar_usuario()">Login</button>
 			</form>
 		</div>

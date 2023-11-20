@@ -1,0 +1,27 @@
+{% extends '/auth/base.html' %}
+{% block title %}Redefinir senha{% endblock %}
+
+{% block head %}
+	{{ super() }}	
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}"> 
+    <script src="{{ url_for('static', filename='js/auth/redefinir.js') }}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="container" id="container">
+		<div class="form-container sign-up-container">
+			<form>
+				<h1>Redefinir a sua senha</h1>
+				
+				<p> Digite o seu email, enviaremos um link para a redefinição</p>
+				<input type="email" placeholder="Email" id="emailSolicitacaoOTP"/>
+
+				<a href="{{ url_for('auth.route_login') }}">Lembrou a sua senha? Clique aqui</a>
+				<button onclick="send_otp_link();">Enviar link</button>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}

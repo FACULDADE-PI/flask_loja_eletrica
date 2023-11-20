@@ -3,7 +3,7 @@ from app.models import PainelUsers
 from app.utils import verify_pass
 from app.middlewares import ifAuthenticatedGoIndex
 from flask_login import current_user, UserMixin, login_user, logout_user
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, redirect
 
 
 
@@ -18,24 +18,29 @@ def route_login():
 
 
 
-@auth.route("/logout/user", methods=["POST"])
+@auth.route("/logout/user", methods=["POST", "GET"])
 def route_logout():
     """ Efetua o logout do usuário """
     user:UserMixin = current_user
-    if not user.is_authenticated:
+    if not user.is_authenticated and request.method == "POST":
         return jsonify({
             "icon": "error",
             "title": "Oops!",
             "text": "Você não está logado"
         }), 200
 
-    logout_user()
-    return jsonify({
-        "icon": "success",
-        "title": "Usuário saiu.",
-        "text": "Você saiu do painel com sucesso."
-    }), 200
+    if user.is_authenticated:
+        logout_user()
 
+    if request.method == "POST":
+        return jsonify({
+            "icon": "success",
+            "title": "Usuário saiu.",
+            "text": "Você saiu do painel com sucesso."
+        }), 200
+    
+    else:
+        return redirect("/")
 
 
 @auth.route("/login/user", methods=["POST"])

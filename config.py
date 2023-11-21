@@ -37,6 +37,9 @@ MAIL_USE_SSL = True
 MAIL_USERNAME = environ['GMAIL_EMAIL_USER']
 MAIL_PASSWORD = environ['GMAIL_EMAIL_PASS']
 
+# Configuração para garantir que o Flask reconheça os cabeçalhos do proxy
+PREFERRED_URL_SCHEME = 'https'  # Defina o esquema de URL preferido como 'https'
+
 # REDEFINIÇÃO DE SENHA
 EXPIRATION_TOKEN = 60 # em minutos
 TOKEN_SALT = SECRET_KEY

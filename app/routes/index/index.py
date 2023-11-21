@@ -17,19 +17,6 @@ def inicio():
 
     return render_template("dashboard/pages/home.html", user=current_user, data=data)
 
-@app.route('/url')
-def url():
-    scheme = request.headers.get('X-Forwarded-Proto', request.scheme)
-    host = request.headers.get('X-Forwarded-Host', request.host)
-    path = request.path
-
-    full_url = f"{scheme}://{host}{path}"
-    return {
-        "full_url": host + path,
-        "host": request.host,
-        "path": request.path
-    }
-
 
 @app.route("/")
 @isAuthenticated

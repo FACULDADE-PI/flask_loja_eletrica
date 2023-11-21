@@ -30,7 +30,7 @@ def send_mail_reset(email_usuario, nome_usuario):
         msg = Message("Não responda este e-mail", sender="Loja Elétrica LTDA", recipients=[email_usuario])
         generated_token = tokenSafe.dumps(email_usuario, salt=app.config.get("TOKEN_SALT"))
         data = {
-            "url": str(request.url_root) + "auth/reset/password/fill?token=" + generated_token,
+            "url": str(request.url) + "auth/reset/password/fill?token=" + generated_token,
             "userName": nome_usuario,
             "minutesExpiration": app.config.get("EXPIRATION_TOKEN", 60)
         }

@@ -1,6 +1,6 @@
 from app.blueprints import auth
 from app.models import PainelUsers
-from app.utils import verify_pass
+from app.utils import verify_pass, send_mail_activation
 from app.middlewares import ifAuthenticatedGoIndex
 from flask_login import current_user, UserMixin, login_user, logout_user
 from flask import render_template, jsonify, request, redirect
@@ -73,7 +73,7 @@ def route_login_user():
             "text": "A sua senha deve possuir no mínimo 6 caracteres"
         }), 200
 
-    user = PainelUsers.query.filter_by(email=email_usuario.lower()).first()
+    user:PainelUsers = PainelUsers.query.filter_by(email=email_usuario.lower()).first()
     if not user:
         return jsonify({
             "icon": "error",
@@ -88,6 +88,15 @@ def route_login_user():
             "text": "A senha inserida está incorreta. Corrija os dados e refaça o login."
         }), 200
     
+
+    if not user.active:
+        send_mail_activation(user.email, user.name)
+        return jsonify({
+            "icon": "warning",
+            "title": "Perfil ainda não ativo.",
+            "text": "Ative o seu perfil clicando no link que enviamos para o seu email"
+        }), 200
+        
 
     login_user(user, remember=True)
     return jsonify({

@@ -1,9 +1,12 @@
 from app.blueprints import auth
 from app.models import PainelUsers
-from app import db
-from flask import render_template, jsonify, request
+from app.middlewares import paramsRequired
+from app.utils import send_mail_activation
+from app import db, tokenSafe, app
+from flask import render_template, jsonify, request, abort, redirect
+from flask_login import login_user
 from app.middlewares import ifAuthenticatedGoIndex
-
+from itsdangerous import SignatureExpired
 
 
 @auth.route("/register", methods=["GET"])
@@ -11,6 +14,31 @@ from app.middlewares import ifAuthenticatedGoIndex
 def route_register():
     """ Renderiza a view de efetuar o registro do usuário """
     return render_template("auth/register.html")
+
+
+
+
+@auth.route("/register/confirm", methods=["POST", "GET"])
+@paramsRequired(["token"])
+def route_confirm_registration():
+    """ Confirma o registro do usuário recebendo o GET ou POST do link enviado para o email """
+    try:
+        email_token = tokenSafe.loads(
+            request.args['token'], 
+            salt=app.config.get("TOKEN_SALT"), 
+        )
+
+        user:PainelUsers = PainelUsers.query.filter_by(email=email_token).first()
+        user.active = True
+        db.session.commit()
+        login_user(user)    
+
+    except (Exception) as err:
+        print(err)
+        return abort(404)
+
+    return redirect("/")
+
 
 
 
@@ -62,14 +90,17 @@ def route_register_new_user():
     new_user = PainelUsers(
         email=email_usuario.lower(),
         password=senha_usuario1,
-        name=nome_usuario
+        name=nome_usuario,
+        active=False
     )
     
     db.session.add(new_user)
     db.session.commit()
 
+    send_mail_activation(email_usuario.lower(), nome_usuario)
+
     return jsonify({
         "icon": "success",
         "title": "Sucesso!",
-        "text": "Usuário cadastrado com sucesso."
+        "text": "Usuário cadastrado. Complete a ativação do perfil clicando no link enviado para o email."
     }), 200

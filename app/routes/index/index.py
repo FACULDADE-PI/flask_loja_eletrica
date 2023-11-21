@@ -24,7 +24,11 @@ def url():
     path = request.path
 
     full_url = f"{scheme}://{host}{path}"
-    return f"A URL real é: {full_url}"
+    return {
+        "full_url": host + path,
+        "host": request.host,
+        "path": request.path
+    }
 
 
 @app.route("/")

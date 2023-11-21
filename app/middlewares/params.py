@@ -14,7 +14,7 @@ def paramsRequired(parameters:list):
             missing = []
 
             for parameter in parameters:
-                if not type(request.form.get(parameter)) != type(None) and not type(kwargs.get(parameter)) != type(None):
+                if not type(request.form.get(parameter)) != type(None) and not type(request.args.get(parameter)) != type(None) and not type(kwargs.get(parameter)) != type(None):
                     missing.append(parameter)
 
 

@@ -2,7 +2,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask import Flask
 from flask_migrate import Migrate
+from flask_mail import Mail
+from flask_executor import Executor
+from itsdangerous import URLSafeTimedSerializer
 from os.path import dirname, abspath
+
 
 # path do arquivo raiz
 path = dirname(abspath(__file__)).replace("\\", "/")
@@ -12,6 +16,15 @@ path = path.rsplit("/", 1)[0]
 # Docs: https://flask-ptbr.readthedocs.io/en/latest/
 app:Flask = Flask(__name__)
 app.config.from_pyfile(path + "/config.py")
+
+#itsdangerous -> Usado para gerar token seguros
+tokenSafe = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+#Flask Executor -> Usado para concorrencia (Ex: envio de emails)
+executor:Executor = Executor(app)
+
+#Flask Mail -> Usado para validar emails
+mail:Mail = Mail(app)
 
 # Login manager
 login_manager = LoginManager(app)

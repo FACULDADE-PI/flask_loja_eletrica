@@ -10,6 +10,7 @@ class PainelUsers(UserMixin, db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
+    token_redefinition_password = db.Column(db.String(256), unique=True, nullable=True)
     date_joined = db.Column(db.DateTime, nullable=True)
     type_user = db.Column(db.ForeignKey("type_users.Id"), default=0)
 

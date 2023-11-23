@@ -2,8 +2,8 @@ from app import app, tokenSafe, db
 from app.blueprints import auth
 from app.models import PainelUsers
 from app.utils import hash_pass, send_mail_reset
-from app.middlewares import paramsRequired
-from flask_login import current_user, logout_user, UserMixin
+from app.middlewares import paramsRequired, ifAuthenticatedGoIndex
+from flask_login import current_user, UserMixin
 from flask import render_template, jsonify, request, redirect, abort, url_for
 from itsdangerous import SignatureExpired
 
@@ -21,6 +21,7 @@ def route_redefinir():
 
 
 @auth.route("/reset/password/fill", methods=["POST", "GET"])
+@ifAuthenticatedGoIndex
 @paramsRequired(["token"])
 def reset_password_using_token():
     """ Redefine a senha utilizando o token enviado para o email """
@@ -39,14 +40,12 @@ def reset_password_using_token():
         print(err)
         return abort(404)
 
-    if current_user.is_authenticated:
-        logout_user(current_user)
-
     return render_template("/auth/new_password.html")
 
 
 
 @auth.route("/reset/password/completion", methods=["POST"])
+@ifAuthenticatedGoIndex
 @paramsRequired(["newPassword", "token"])
 def reset_password_using_token_completion():
     """ Finaliza a redefinição de senha """
@@ -79,6 +78,7 @@ def reset_password_using_token_completion():
 
 
 @auth.route("/reset/password/otp/send", methods=["POST"])
+@ifAuthenticatedGoIndex
 @paramsRequired(["emailOTP"])
 def send_otp_code():
     """ Envia o código de redefinição para o email do usuário """

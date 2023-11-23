@@ -13,7 +13,7 @@ from flask import render_template, jsonify, request
 @isAuthenticated
 def route_profile():
     """ Renderiza a view de login do usuário """
-    return render_template("dashboard/pages/profile.html", user=current_user)
+    return render_template("dashboard/pages/user/profile.html", user=current_user)
 
 
 @client.route("/profile/change", methods=["POST"])

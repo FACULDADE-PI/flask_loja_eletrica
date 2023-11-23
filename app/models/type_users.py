@@ -4,10 +4,14 @@ class TypeUsers(db.Model):
     __tablename__ = "type_users"
     
     Id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    desc = db.Column(db.String(100), nullable=False)
+    slug = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False) 
+    active = db.Column(db.Boolean, default=True)
 
-    def __init__(self, desc):
-        self.desc = desc
+
+    def __init__(self, description, slug):
+        self.slug = slug
+        self.description = description
 
     def __repr__(self) -> str:
-        return str(self.desc)
+        return str(self.slug)

@@ -10,12 +10,13 @@ from flask_login import current_user
 @client.route("/home")
 @isAuthenticated
 def inicio():
+    """ Index """
     data = {
         "usersCount": PainelUsers.query.count(),
         "registeredUsers": PainelUsers.query.with_entities(PainelUsers.Id, PainelUsers.email, PainelUsers.active, PainelUsers.name, PainelUsers.date_joined, PainelUsers.type_user).all()
     }
 
-    return render_template("dashboard/pages/home.html", user=current_user, data=data)
+    return render_template("dashboard/pages/users/home.html", user=current_user, data=data)
 
 
 @app.route("/")

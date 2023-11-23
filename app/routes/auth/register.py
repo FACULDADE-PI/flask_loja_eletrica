@@ -19,6 +19,7 @@ def route_register():
 
 
 @auth.route("/register/confirm", methods=["POST", "GET"])
+@ifAuthenticatedGoIndex
 @paramsRequired(["token"])
 def route_confirm_registration():
     """ Confirma o registro do usuário recebendo o GET ou POST do link enviado para o email """
@@ -43,6 +44,7 @@ def route_confirm_registration():
 
 
 @auth.route("/register/new", methods=["POST"])
+@ifAuthenticatedGoIndex
 def route_register_new_user():
     """ Efetua o registro do usuário """
     email_usuario = request.form.get("email_usuario", "")

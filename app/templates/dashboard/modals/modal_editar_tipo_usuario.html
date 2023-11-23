@@ -1,0 +1,101 @@
+<!-- Modal para solicitar a senha -->
+<div class="modal fade" id="modalEditarTipoUsuario" tabindex="-1" role="dialog" aria-labelledby="modalEditarTipoUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalConfirmarSenhaLabel">Edição de tipo de usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="slugTypeUser">Nome do tipo de usuário</label>
+                    <input class="au-input au-input--full form-control" type="text" id="slugTypeUser" placeholder="Nome do tipo de usuário">
+                </div>
+                
+                <div class="form-group">
+                    <label for="campoTexto">Descrição do tipo de usuário</label>
+                    <input class="au-input au-input--full form-control" type="text" id="descriptionUser" placeholder="Digite o que esse tipo de usuário faz no sistema">
+                </div>
+                
+                <div class="form-group">
+                    <label for="selectOption">Selecione uma opção</label>
+                    <select class="form-control" id="selectOption">
+                        <option value="1">Ativo</option>
+                        <option value="0">Inativo</option>
+                    </select>
+                </div>
+
+                <div class="alert alert-danger mt-2" id="errorInvalidUserTypeDescription" style="display: none !important;">
+                    A descrição não pode estar vazia.
+                </div>
+            
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="salvarEditarTipo()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modals anteriores e scripts ... -->
+
+<script>
+    var modalConfirmSenha = document.getElementById('modalConfirmarSenha');
+    modalConfirmSenha.addEventListener('hidden.bs.modal', function () {
+        var errorMensagem = document.getElementById('errorConfirmSenha');
+        errorMensagem.style.display = 'none'; // Oculta a mensagem de erro ao fechar o modal
+    });
+
+
+    function confirmarSenha() {
+        var senhaDigitada = document.getElementById('senhaConfirmacao').value;
+        if (senhaDigitada.length === 0) {
+            document.getElementById('errorConfirmSenha').style.display = 'block';
+            return;
+        }
+
+        document.getElementById('errorConfirmSenha').style.display = 'none';
+
+        var modalElement = document.getElementById('modalConfirmarSenha');
+        var modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
+
+        confirmarSenhaBackend();
+    }
+
+
+        function confirmarSenhaBackend() {
+            $(document).ready(() => {
+                $.ajax({
+                    method: "POST",
+                    url: "/user/profile/change",
+                    data: {
+                        senhaConfirmacao: $("#senhaConfirmacao").val(),
+                        novoNome: $("#nome").val(),
+                        novaSenha: $("#senha").val(),
+                    }
+                }).done((data) => {
+                    // Mostrar mensagem com o resultado da solicitação
+                    const swalWithReload = Swal.mixin({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'A alteração do seu perfil foi realizada com sucesso',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                    });
+
+                    swalWithReload.fire().then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                });
+            });
+        }
+
+</script>

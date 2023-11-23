@@ -44,6 +44,7 @@ from app.blueprints import *
 # Docs: https://flask.palletsprojects.com/en/2.2.x/tutorial/views/
 app.register_blueprint(auth)
 app.register_blueprint(client)
+app.register_blueprint(admin)
 
 # Clear Caching Chrome -> Remove o cache criado pelo navegador após a requisição
 @app.after_request

@@ -1,0 +1,107 @@
+{% extends 'dashboard/layouts/base.html' %}
+{% block title %} Início {% endblock %}
+
+{% block content %}
+
+{% include 'dashboard/modals/modal_editar_tipo_usuario.html' %}
+
+ 
+<!-- MAIN CONTENT-->
+
+<body class="animsition">
+    <div class="page-wrapper">
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+                                <h3 class="title-5 m-b-35">Tipos de usuários existentes</h3>
+                                <div class="table-data__tool">
+                                    <div class="table-data__tool-right">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i>Adicionar novo tipo</button>
+                                    </div>
+
+                                </div>
+
+
+
+                        <div class="row m-t-30">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
+                                <div class="table-responsive m-b-40">
+                                    <table class="table table-borderless table-data3">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Tipo</th>
+                                                <th>Descrição</th>
+                                                <th>Status</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for userType in types %}
+                                                <tr>
+                                                    <td>{{userType.Id}}</td>
+                                                    <td>{{userType.slug}}</td>
+                                                    <td>{{userType.description}}</td>
+                                                    <td class="{{ 'process' if userType.active else 'denied'}}">{{'Ativo' if userType.active else 'Inativo'}}</td>
+                                                    <td>
+                                                        <div class="table-data-feature">
+                                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Editar" 
+                                                                onclick="abrirModalEdicao('{{userType.slug}}', '{{userType.description}}', '{{userType.active}}');">
+                                                                <i class="zmdi zmdi-edit"></i>
+                                                            </button>
+                                                            
+
+                                                            {% if userType.active %}
+                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Desativar">
+                                                                    <i class="zmdi zmdi-delete"></i>
+                                                                </button>
+                                                            
+                                                            {% else %}
+
+                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Ativar">
+                                                                    <i class="zmdi zmdi-check"></i>
+                                                                </button>
+
+                                                            {% endif %}
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- END DATA TABLE-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</body>
+
+<script>
+    function abrirModalEdicao(tipoUsuario, descricao, status) {
+        var modal = new bootstrap.Modal(document.getElementById('modalEditarTipoUsuario'));
+        modal.show();
+
+        // Definir os valores dos campos do modal com os parâmetros passados
+        document.getElementById('slugTypeUser').value = tipoUsuario;
+        document.getElementById('descriptionUser').value = descricao;
+
+        // Definir a opção correspondente no select usando o status
+        var selectOption = document.getElementById('selectOption');
+        selectOption.value = status === 'True' ? 1 : 0;;
+    }
+</script>
+
+{% endblock %}

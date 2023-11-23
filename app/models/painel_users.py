@@ -13,7 +13,7 @@ class PainelUsers(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False)
     token_redefinition_password = db.Column(db.String(256), unique=True, nullable=True)
     date_joined = db.Column(db.DateTime, nullable=True)
-    type_user = db.Column(db.ForeignKey("type_users.Id"), default=0)
+    type_user = db.Column(db.ForeignKey("type_users.Id"), default=5)
 
     active = db.Column(db.Boolean, default=False)
 
@@ -26,7 +26,7 @@ class PainelUsers(UserMixin, db.Model):
         self.password = hash_pass(password)
         self.name = name
         self.date_joined = current_time()
-        self.type_user = TypeUsers.query.filter_by(desc="Usuário").first().Id
+        self.type_user = TypeUsers.query.filter_by(slug="Usuário").first().Id
         self.active = active
 
     def __repr__(self) -> str:

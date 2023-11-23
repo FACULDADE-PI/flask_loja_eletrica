@@ -1,7 +1,7 @@
 from app.blueprints import auth
 from app.models import PainelUsers
 from app.utils import verify_pass, send_mail_activation
-from app.middlewares import ifAuthenticatedGoIndex
+from app.middlewares import ifAuthenticatedGoIndex, isAuthenticated
 from flask_login import current_user, UserMixin, login_user, logout_user
 from flask import render_template, jsonify, request, redirect
 

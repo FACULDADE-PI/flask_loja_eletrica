@@ -58,7 +58,7 @@
                                             <td class="{{ 'process' if user.active else 'denied'}}">{{ 'Ativo' if user.active else 'Inativo' }}</td>
                                             <td>{{ user.type_user_slug.capitalize() }}</td>
                                             <td>
-                                                {% if user.type_user not in (1,) %}
+                                                {% if user.type_user not in (1,) and currentUser.type_user == 1 %}
                                                     <div class="table-data-feature">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Editar" 
                                                             onclick="abrirModalEdicao('{{ user.Id }}', '{{ user.name }}', '{{ user.type_user }}');">

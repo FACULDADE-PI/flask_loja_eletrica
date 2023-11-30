@@ -32,7 +32,8 @@ def route_editar_usuario():
     data = {
         "usersCount": quantidadeUsuarios,
         "registeredUsers": users_with_type_details,
-        "typeUsers": tipoUsuarios
+        "typeUsers": tipoUsuarios,
+        "currentUser": current_user
     }
     
     return render_template("dashboard/pages/administrativo/editUser.html", user=current_user, data=data)
@@ -42,7 +43,7 @@ def route_editar_usuario():
 @admin.route("/edit/user/confirm", methods=["POST"])
 @isAuthenticated
 @paramsRequired(["idUser", "nameUser", "slugUser"])
-@hasPrivileges(["Administrador", "Programador"])
+@hasPrivileges(["Administrador"])
 def confirmar_edicao_usuario():
     """ Rota de editar o usuário (apenas administrador) """
 
@@ -77,7 +78,7 @@ def confirmar_edicao_usuario():
 @admin.route("/edit/user/status", methods=["POST"])
 @isAuthenticated
 @paramsRequired(["idUser"])
-@hasPrivileges(["Administrador", "Programador"])
+@hasPrivileges(["Administrador"])
 def editar_status_usuario():
     """ Desabilita ou habilita o usuário """
 
@@ -92,7 +93,7 @@ def editar_status_usuario():
 
     findedUser.active = not findedUser.active
     findedUser.type_user = TypeUsers.query.filter_by(slug="Usuário").first().Id
-    
+
     db.session.commit()
 
     return jsonify({

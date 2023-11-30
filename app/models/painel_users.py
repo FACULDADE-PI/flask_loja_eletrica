@@ -13,8 +13,7 @@ class PainelUsers(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False)
     token_redefinition_password = db.Column(db.String(256), unique=True, nullable=True)
     date_joined = db.Column(db.DateTime, nullable=True)
-    type_user = db.Column(db.ForeignKey("type_users.Id"), default=5)
-
+    type_user = db.Column(db.ForeignKey("type_users.Id"), default=3)
     active = db.Column(db.Boolean, default=False)
 
 

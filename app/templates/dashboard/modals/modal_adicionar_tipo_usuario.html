@@ -1,0 +1,99 @@
+<!-- Modal para solicitar a senha -->
+<div class="modal fade" id="modalNovoTipoUsuario" tabindex="-1" role="dialog" aria-labelledby="modalNovoTipoUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNovoTipoUsuarioLabel">Adicionar novo tipo de usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="slugTypeUserNew">Nome do tipo de usuário</label>
+                    <input class="au-input au-input--full form-control" type="text" id="slugTypeUserNew" placeholder="Nome do tipo de usuário">
+                </div>
+                
+                <div class="form-group">
+                    <label for="descriptionUserNew">Descrição do tipo de usuário</label>
+                    <input class="au-input au-input--full form-control" type="text" id="descriptionUserNew" placeholder="Digite o que esse tipo de usuário faz no sistema">
+                </div>
+                
+                <div class="form-group">
+                    <label for="selectOptionNewUsrType">Selecione uma opção</label>
+                    <select class="form-control" id="selectOptionNewUsrType">
+                        <option value="1">Ativo</option>
+                        <option value="0">Inativo</option>
+                    </select>
+                </div>
+
+                <div class="alert alert-danger mt-2" id="errorInvalidUserTypeDescriptionNew" style="display: none !important;">
+                    A descrição não pode estar vazia.
+                </div>
+            
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="validarModalTipo()">Salvar</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- Modals anteriores e scripts ... -->
+
+<script>
+    var modalNovoTipoUsuario = document.getElementById('modalNovoTipoUsuario');
+
+    modalNovoTipoUsuario.addEventListener('hidden.bs.modal', function () {
+        var errorMensagem = document.getElementById('errorInvalidUserTypeDescriptionNew');
+        errorMensagem.style.display = 'none'; // Oculta a mensagem de erro ao fechar o modal
+    });
+
+    function validarModalTipo() {
+        var descricaoTipo = document.getElementById('descriptionUserNew').value;
+        var slugTipo = document.getElementById('slugTypeUserNew').value;
+
+        if (descricaoTipo.trim() === '' || slugTipo.trim() === '') {
+            document.getElementById('errorInvalidUserTypeDescriptionNew').style.display = 'block';
+            return;
+        }
+
+        document.getElementById('errorInvalidUserTypeDescriptionNew').style.display = 'none';
+
+        closeModal(); // Fechar o modal após validar os campos
+        novoTipoUsuario();
+    }
+
+    function closeModal() {
+        var modal = new bootstrap.Modal(document.getElementById('modalNovoTipoUsuario'));
+        modal.hide(); // Ocultar o modal
+    }
+
+
+    function novoTipoUsuario() {
+        $(document).ready(() => {
+            $.ajax({
+                method: "POST",
+                url: "/admin/edit/types/new",
+                data: {
+                    descriptionType: $("#descriptionUserNew").val(),
+                    slugType: $("#slugTypeUserNew").val(),
+                    isActive: $("#selectOptionNewUsrType").val()
+                }
+            }).done((data) => {
+                // Mostrar mensagem com o resultado da solicitação
+                const swalWithReload = Swal.mixin(data);
+
+                swalWithReload.fire().then((result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
+                        location.reload(); // Recarregar a página ao clicar em OK ou fechar o modal
+                    }
+                });
+            });
+        });
+    }
+</script>

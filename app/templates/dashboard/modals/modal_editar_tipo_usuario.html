@@ -3,9 +3,11 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalConfirmarSenhaLabel">Edição de tipo de usuário</h5>
+                <h5 class="modal-title" id="modalEditarTipoUsuarioLabel">Edição de tipo de usuário</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
+
+            <input type="hidden" id="idTipoUser" value="valueTipoUser">
             
             <div class="modal-body">
                 <div class="form-group">
@@ -44,58 +46,50 @@
 <!-- Modals anteriores e scripts ... -->
 
 <script>
-    var modalConfirmSenha = document.getElementById('modalConfirmarSenha');
+    var modalConfirmSenha = document.getElementById('modalEditarTipoUsuario');
     modalConfirmSenha.addEventListener('hidden.bs.modal', function () {
-        var errorMensagem = document.getElementById('errorConfirmSenha');
+        var errorMensagem = document.getElementById('errorInvalidUserTypeDescription');
         errorMensagem.style.display = 'none'; // Oculta a mensagem de erro ao fechar o modal
     });
 
 
-    function confirmarSenha() {
-        var senhaDigitada = document.getElementById('senhaConfirmacao').value;
-        if (senhaDigitada.length === 0) {
-            document.getElementById('errorConfirmSenha').style.display = 'block';
+    function salvarEditarTipo() {
+        var descricaoTipo = document.getElementById('descriptionUser').value;
+        var slugTipo = document.getElementById('slugTypeUser').value;
+
+        if (descricaoTipo.trim() === '' || slugTipo.trim() === '') {
+            document.getElementById('errorInvalidUserTypeDescription').style.display = 'block';
             return;
         }
 
-        document.getElementById('errorConfirmSenha').style.display = 'none';
+        document.getElementById('errorInvalidUserTypeDescription').style.display = 'none';
 
-        var modalElement = document.getElementById('modalConfirmarSenha');
-        var modal = bootstrap.Modal.getInstance(modalElement);
-        modal.hide();
+        $('#modalEditarTipoUsuario').modal('hide'); // Oculta o modal manualmente
 
-        confirmarSenhaBackend();
+        editarTipoUsuario();
     }
 
-
-        function confirmarSenhaBackend() {
-            $(document).ready(() => {
-                $.ajax({
-                    method: "POST",
-                    url: "/user/profile/change",
-                    data: {
-                        senhaConfirmacao: $("#senhaConfirmacao").val(),
-                        novoNome: $("#nome").val(),
-                        novaSenha: $("#senha").val(),
+    function editarTipoUsuario() {
+        $(document).ready(() => {
+            $.ajax({
+                method: "POST",
+                url: "/admin/edit/types/confirm",
+                data: {
+                    idType: $("#idTipoUser").val(),
+                    descriptionType: $("#descriptionUser").val(),
+                    slugType: $("#slugTypeUser").val(),
+                    isActive: $("#selectOption").val()
+                }
+            }).done((data) => {
+                // Mostrar mensagem com o resultado da solicitação
+                const swalWithReload = Swal.mixin(data);
+                swalWithReload.fire().then((result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
+                        location.reload(); // Recarregar a página ao clicar em OK ou fechar o modal
                     }
-                }).done((data) => {
-                    // Mostrar mensagem com o resultado da solicitação
-                    const swalWithReload = Swal.mixin({
-                        icon: 'success',
-                        title: 'Sucesso!',
-                        text: 'A alteração do seu perfil foi realizada com sucesso',
-                        showConfirmButton: true,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                    });
-
-                    swalWithReload.fire().then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
-                        }
-                    });
                 });
             });
-        }
+        });
+    }
 
 </script>

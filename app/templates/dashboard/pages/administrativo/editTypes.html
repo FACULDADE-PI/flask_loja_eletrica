@@ -1,9 +1,10 @@
 {% extends 'dashboard/layouts/base.html' %}
-{% block title %} Início {% endblock %}
+{% block title %} Editar tipos {% endblock %}
 
 {% block content %}
 
 {% include 'dashboard/modals/modal_editar_tipo_usuario.html' %}
+{% include 'dashboard/modals/modal_adicionar_tipo_usuario.html' %}
 
  
 <!-- MAIN CONTENT-->
@@ -21,7 +22,7 @@
                                 <h3 class="title-5 m-b-35">Tipos de usuários existentes</h3>
                                 <div class="table-data__tool">
                                     <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="abrirNovoTipo()">
                                             <i class="zmdi zmdi-plus"></i>Adicionar novo tipo</button>
                                     </div>
 
@@ -52,24 +53,26 @@
                                                     <td>{{userType.description}}</td>
                                                     <td class="{{ 'process' if userType.active else 'denied'}}">{{'Ativo' if userType.active else 'Inativo'}}</td>
                                                     <td>
-                                                        <div class="table-data-feature">
-                                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Editar" 
-                                                                onclick="abrirModalEdicao('{{userType.slug}}', '{{userType.description}}', '{{userType.active}}');">
-                                                                <i class="zmdi zmdi-edit"></i>
-                                                            </button>
-                                                            
-
-                                                            {% if userType.active %}
-                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Desativar">
-                                                                    <i class="zmdi zmdi-delete"></i>
+                                                        {%if userType.Id not in (1,2,3) %}
+                                                            <div class="table-data-feature">
+                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Editar" 
+                                                                    onclick="abrirModalEdicao('{{userType.Id}}', '{{userType.slug}}', '{{userType.description}}', '{{userType.active}}');">
+                                                                    <i class="zmdi zmdi-edit"></i>
                                                                 </button>
-                                                            
-                                                            {% else %}
+                                                                
 
-                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Ativar">
-                                                                    <i class="zmdi zmdi-check"></i>
-                                                                </button>
+                                                                {% if userType.active %}
+                                                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Desativar" onclick="mudarStatusTipoUser('{{userType.Id}}')">
+                                                                        <i class="zmdi zmdi-delete"></i>
+                                                                    </button>
+                                                                
+                                                                {% else %}
 
+                                                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Ativar" onclick="mudarStatusTipoUser('{{userType.Id}}')">
+                                                                        <i class="zmdi zmdi-check"></i>
+                                                                    </button>
+
+                                                                {% endif %}
                                                             {% endif %}
 
                                                         </div>
@@ -90,11 +93,25 @@
 </body>
 
 <script>
-    function abrirModalEdicao(tipoUsuario, descricao, status) {
+    function abrirNovoTipo() {
+        var modal = new bootstrap.Modal(document.getElementById('modalNovoTipoUsuario'));
+        modal.show();
+
+        // Definir os valores dos campos do modal com os parâmetros passados
+        document.getElementById('slugTypeUserNew').value = "";
+        document.getElementById('descriptionUserNew').value = "";
+
+        // Definir a opção correspondente no select usando o status
+        selectOption.value = 1
+    }
+    
+    
+    function abrirModalEdicao(idTipo, tipoUsuario, descricao, status) {
         var modal = new bootstrap.Modal(document.getElementById('modalEditarTipoUsuario'));
         modal.show();
 
         // Definir os valores dos campos do modal com os parâmetros passados
+        document.getElementById('idTipoUser').value = idTipo;
         document.getElementById('slugTypeUser').value = tipoUsuario;
         document.getElementById('descriptionUser').value = descricao;
 
@@ -102,6 +119,30 @@
         var selectOption = document.getElementById('selectOption');
         selectOption.value = status === 'True' ? 1 : 0;;
     }
+
+
+
+    function mudarStatusTipoUser(idTipo) {
+        $(document).ready(() => {
+            $.ajax({
+                method: "POST",
+                url: "/admin/edit/types/status/change",
+                data: {
+                    idType: idTipo,
+                }
+            }).done((data) => {
+                // Mostrar mensagem com o resultado da solicitação
+                const swalWithReload = Swal.mixin(data);
+                swalWithReload.fire().then((result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
+                        location.reload(); // Recarregar a página ao clicar em OK ou fechar o modal
+                    }
+                });
+            });
+        });
+    }
+
+
 </script>
 
 {% endblock %}

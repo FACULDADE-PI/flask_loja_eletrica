@@ -1,2 +1,2 @@
-from .authentication import isAuthenticated, ifAuthenticatedGoIndex
+from .authentication import isAuthenticated, hasPrivileges, ifAuthenticatedGoIndex
 from .params import paramsRequired

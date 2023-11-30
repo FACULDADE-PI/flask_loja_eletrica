@@ -45,7 +45,6 @@ def reset_password_using_token():
 
 
 @auth.route("/reset/password/completion", methods=["POST"])
-@ifAuthenticatedGoIndex
 @paramsRequired(["newPassword", "token"])
 def reset_password_using_token_completion():
     """ Finaliza a redefinição de senha """
@@ -78,7 +77,6 @@ def reset_password_using_token_completion():
 
 
 @auth.route("/reset/password/otp/send", methods=["POST"])
-@ifAuthenticatedGoIndex
 @paramsRequired(["emailOTP"])
 def send_otp_code():
     """ Envia o código de redefinição para o email do usuário """

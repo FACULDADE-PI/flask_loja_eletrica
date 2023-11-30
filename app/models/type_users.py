@@ -9,9 +9,10 @@ class TypeUsers(db.Model):
     active = db.Column(db.Boolean, default=True)
 
 
-    def __init__(self, description, slug):
+    def __init__(self, description, slug, active):
         self.slug = slug
         self.description = description
+        self.active = active
 
     def __repr__(self) -> str:
         return str(self.slug)

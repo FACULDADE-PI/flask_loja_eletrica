@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from flask import jsonify
+from flask import jsonify, request
 from functools import wraps
-from flask import request
 
 
 def paramsRequired(parameters:list):
@@ -32,4 +31,3 @@ def paramsRequired(parameters:list):
     return decoratorType
 
 
-    

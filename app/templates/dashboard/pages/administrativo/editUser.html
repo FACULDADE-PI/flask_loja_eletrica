@@ -58,24 +58,28 @@
                                             <td class="{{ 'process' if user.active else 'denied'}}">{{ 'Ativo' if user.active else 'Inativo' }}</td>
                                             <td>{{ user.type_user_slug.capitalize() }}</td>
                                             <td>
-                                                {% if user.type_user not in (1,) and currentUser.type_user == 1 %}
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Editar" 
-                                                            onclick="abrirModalEdicao('{{ user.Id }}', '{{ user.name }}', '{{ user.type_user }}');">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        {% if user.active %}
-                                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Desativar" onclick="mudarStatusUser('{{ user.Id }}')">
-                                                                <i class="zmdi zmdi-delete"></i>
+                                                {% if data.currentUser.type_user == 1 %}
+                                                    {% if user.type_user not in (1,) %}
+                                                        <div class="table-data-feature">
+                                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Editar" 
+                                                                onclick="abrirModalEdicao('{{ user.Id }}', '{{ user.name }}', '{{ user.type_user }}');">
+                                                                <i class="zmdi zmdi-edit"></i>
                                                             </button>
-                                                        {% else %}
-                                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Ativar" onclick="mudarStatusUser('{{ user.Id }}')">
-                                                                <i class="zmdi zmdi-check"></i>
-                                                            </button>
-                                                        {% endif %}
-                                                    </div>
+                                                            {% if user.active %}
+                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Desativar" onclick="mudarStatusUser('{{ user.Id }}')">
+                                                                    <i class="zmdi zmdi-delete"></i>
+                                                                </button>
+                                                            {% else %}
+                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Ativar" onclick="mudarStatusUser('{{ user.Id }}')">
+                                                                    <i class="zmdi zmdi-check"></i>
+                                                                </button>
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endif %}
+                                                {% else %}
+                                                <b>INDISP</b>
                                                 {% endif %}
-                                            </td>
+                                                </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

@@ -91,6 +91,8 @@ def editar_status_usuario():
     
 
     findedUser.active = not findedUser.active
+    findedUser.type_user = TypeUsers.query.filter_by(slug="Usuário").first().Id
+    
     db.session.commit()
 
     return jsonify({

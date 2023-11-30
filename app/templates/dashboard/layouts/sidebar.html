@@ -13,7 +13,7 @@
 
 
                             
-            {% if user.type_user == 1 %}
+            {% if user.type_user in (1, 2) %}
                 <li class="navbar-separator">
                     <label>Menu administrativo</label>
                 </li>

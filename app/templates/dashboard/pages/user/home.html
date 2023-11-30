@@ -3,28 +3,109 @@
 
 {% block content %}
 
+<head>
+    <link href="{{ url_for('static', filename='css/card_home.css') }}" rel="stylesheet" media="all">
+        <style>
+            h2 {
+                text-align: center;
+                padding-top: 2%;
+                padding-bottom: 2%;
+            }
+
+            .centralize {
+                text-align: center;
+                padding-top: 2%;
+                padding-bottom: 2%;
+            }
+
+
+        </style>
+</head>
 
 <body class="animsition">
     <div class="page-wrapper">
         <div class="main-content">
             <div class="section__content section__content--p30">
+                <h2>Passe o mouse para conferir algumas vantagens de trabalhar conosco: </h2>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="row m-t-25">
-                            <div class="col-sm-12 col-lg-12">
-                                <h2>Confira algumas vantagens de trabalhar conosco: </h2>
-                                            
-                                    
-                                    
+                        <div class="col-sm-12 col-lg-12">
+                            <div class="box">
+                                <div class="card">
+                                    <div class="imgBx">
+                                        <img src="{{ url_for('static', filename='images/home/logistica.avif') }}" alt="images">
+                                    </div>
+                                    <div class="details">
+                                        <h2>Entrega rápida<br><span>Conhecer mais</span></h2>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="imgBx">
+                                        <img src="{{ url_for('static', filename='images/home/gestao_integrada.webp') }}" alt="images">
+                                    </div>
+                                    <div class="details">
+                                        <h2>Sistema integrado<br><span>Conhecer mais</span></h2>
+                                    </div>
+                                </div>
 
-
+                                <div class="card">
+                                    <div class="imgBx">
+                                        <img src="{{ url_for('static', filename='images/home/satisfacao.jpg') }}" alt="images">
+                                    </div>
+                                    <div class="details">
+                                        <h2>Alta satisfação<br><span>Conhecer mais</span></h2>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="centralize">
+                        <div class="map-data m-b-40">
+                            <h3>Escolha a região que gostaria de consultar disponibilidade</h3>
+                                <div class="map-wrap">
+                                    <div class="vmap" id="vmap6"></div>
+                                </div>
+                        </div>
+                    </div>
+                        
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+
+<script src="{{ url_for('static', filename='vendor/jquery-3.2.1.min.js') }}"></script>
+<!-- Bootstrap JS-->
+<script src="{{ url_for('static', filename='vendor/bootstrap-4.1/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
+<!-- Vendor JS       -->
+<script src="{{ url_for('static', filename='vendor/slick/slick.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/wow/wow.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/animsition/animsition.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/counter-up/jquery.waypoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/counter-up/jquery.counterup.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/circle-progress/circle-progress.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/chartjs/Chart.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.sampledata.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.world.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.brazil.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.europe.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.france.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.germany.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.russia.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/vector-map/jquery.vmap.usa.js') }}"></script>
+
+<!-- Main JS-->
+<script src="{{ url_for('static', filename='js/dashboard/main.js') }}"></script>
+
 
 {% endblock %}

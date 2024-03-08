@@ -22,7 +22,7 @@ def route_lancar_endereco():
 
 @admin.route("/editar/endereco", methods=["POST"])
 @isAuthenticated
-@hasPrivileges
+@hasPrivileges(privilegesEnderecos)
 def routes_editar_endereco():
     id_registrado = str(request.form.get("id"))
 
@@ -85,7 +85,7 @@ def routes_adicionar_endereco():
         True, 
         estado
     )
-    
+
     db.session.add(address)
     db.session.commit()
 

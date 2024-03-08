@@ -26,7 +26,7 @@ def route_lancar_endereco():
 def routes_editar_endereco():
     id_registrado = str(request.form.get("id"))
 
-    if not id_registrado.isdigit():
+    if id_registrado.isdigit():
         address:AddressScanned = AddressScanned.query.filter_by(AddressScanned.Id==int(id_registrado)).first()
         cep = request.form.get("cep")
 
@@ -44,10 +44,17 @@ def routes_editar_endereco():
 
         db.session.commit()
 
+        return jsonify({
+            "icon": "success",
+            "title": "Sucesso!",
+            "text": "O endereço foi editado com sucesso."
+        }), 200
+    
+
     return jsonify({
-        "icon": "success",
-        "title": "Sucesso!",
-        "text": "O endereço foi editado com sucesso."
+        "icon": "error",
+        "title": "Oops!",
+        "text": "O id do endereço é inválido."
     }), 200
 
 

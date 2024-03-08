@@ -1,2 +1,3 @@
 from .editar_usuario import route_editar_usuario
 from .editar_tipos_usuarios import route_editar_tipo_usuario
+from .lancar_enderecos import route_lancar_endereco

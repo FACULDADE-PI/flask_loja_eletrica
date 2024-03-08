@@ -1,0 +1,229 @@
+<div class="modal fade" id="modalNovoEndereco" tabindex="-1" role="dialog" aria-labelledby="modalNovoEnderecoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNovoEnderecoLabel">Lançamento de endereço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="cepAddress">CEP</label>
+                    <input class="au-input au-input--full form-control" type="number" id="cepAddress" placeholder="Digite o cep de entrega">
+                </div>
+
+                <input type="hidden" id="idAddress" value="">
+
+
+                <div class="form-group">
+                    <label for="numero">Número</label>
+                    <input class="au-input au-input--full form-control" type="number" id="numero" placeholder="Digite o número">
+                </div>
+                
+                <hr>
+
+                <div class="form-group">
+                    <label for="rua">Rua</label>
+                    <input class="au-input au-input--full form-control" type="text" id="rua" placeholder="A rua será preenchida de acordo com o CEP" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="cidade">Cidade</label>
+                    <input class="au-input au-input--full form-control" type="text" id="cidade" placeholder="A cidade será preenchida de acordo com o CEP" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="bairro">Bairro</label>
+                    <input class="au-input au-input--full form-control" type="text" id="bairro" placeholder="O bairro será preenchido de acordo com o CEP" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <input class="au-input au-input--full form-control" type="text" id="estado" placeholder="O estado será preenchido de acordo com CEP" readonly>
+                </div>
+
+                <div class="alert alert-danger mt-2" id="errorInvalidCEP" style="display: none !important;">
+                    O cep não pode estar vazio.
+                </div>
+
+                <div class="alert alert-danger mt-2" id="errorInvalidNumero" style="display: none !important;">
+                    O número não pode estar vazio ou não ser um inteiro.
+                </div>
+
+                <!-- Novo elemento para exibir alerta de rua vazia -->
+                <div class="alert alert-danger mt-2" id="errorEmptyRua" style="display: none !important;">
+                    A rua não pode estar vazia. Preencha todos os campos.
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="hideModal();">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="validarAdicionarEndereco()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var modalNovoEndereco = document.getElementById('modalNovoEndereco');
+    modalNovoEndereco.addEventListener('hidden.bs.modal', function () {
+        var errorMensagemCEP = document.getElementById('errorInvalidCEP');
+        var errorMensagemNumero = document.getElementById('errorInvalidNumero');
+        var errorEmptyRua = document.getElementById('errorEmptyRua');
+
+        errorMensagemCEP.style.display = 'none';
+        errorMensagemNumero.style.display = 'none';
+        errorEmptyRua.style.display = 'none';
+    });
+
+
+    function clearModal() {
+        // Limpar campo CEP
+        document.getElementById('cepAddress').value = '';
+
+        // Limpar campo Número
+        document.getElementById('numero').value = '';
+
+        // Limpar campo Rua
+        document.getElementById('rua').value = '';
+
+        // Limpar campo Cidade
+        document.getElementById('cidade').value = '';
+
+        // Limpar campo Bairro
+        document.getElementById('bairro').value = '';
+
+        // Limpar campo Estado
+        document.getElementById('estado').value = '';
+
+        // Ocultar mensagens de erro
+        document.getElementById('errorInvalidCEP').style.display = 'none';
+        document.getElementById('errorInvalidNumero').style.display = 'none';
+        document.getElementById('errorEmptyRua').style.display = 'none';
+    }
+
+    function abrirNovoEndereco() {
+        clearModal();
+        var modal = new bootstrap.Modal(document.getElementById('modalNovoEndereco'));
+        modal.show();
+    }
+
+
+    function abrirModalEdicaoEnderecos(id, cep, numero) {
+        clearModal();
+
+        // Preencher campos com os valores fornecidos
+        $("#idAddress").val(id);
+        $("#cepAddress").val(cep);
+        $("#numero").val(numero);
+
+        // Simular evento de entrada no campo CEP para acionar o preenchimento automático
+        var cepInput = document.getElementById('cepAddress');
+        var event = new Event('input', { bubbles: true });
+        cepInput.dispatchEvent(event);
+
+        // Mostrar o modal
+        $('#modalNovoEndereco').modal('show');
+    }
+
+    function hideModal() {
+        $('#modalNovoEndereco').modal('hide');
+    }
+
+    function validarAdicionarEndereco() {
+        var cepEndereco = document.getElementById('cepAddress').value;
+        var numeroEndereco = document.getElementById('numero').value;
+        var ruaEndereco = document.getElementById('rua').value;
+
+        if (cepEndereco.trim() === '' || cepEndereco.length !== 8) {
+            document.getElementById('errorInvalidCEP').style.display = 'block';
+            return;
+        } else {
+            document.getElementById('errorInvalidCEP').style.display = 'none';
+        }
+
+        if (numeroEndereco.trim() === '') {
+            document.getElementById('errorInvalidNumero').style.display = 'block';
+            return;
+        } else {
+            document.getElementById('errorInvalidNumero').style.display = 'none';
+        }
+
+        // Verifica se a rua está vazia
+        if (ruaEndereco.trim() === '') {
+            document.getElementById('errorEmptyRua').style.display = 'block';
+            return;
+        } else {
+            document.getElementById('errorEmptyRua').style.display = 'none';
+        }
+
+        $('#modalNovoEndereco').modal('hide');
+        salvarEndereco();
+    }
+
+    document.getElementById('cepAddress').addEventListener('input', function () {
+        var cep = this.value.trim();
+
+        if (cep.length > 8) {
+            this.value = cep.slice(0, 8);
+        }
+
+        if (cep.length === 8) {
+            $.ajax({
+                method: "POST",
+                url: "/admin/consultar/cep",
+                data: { cep: cep },
+                statusCode: {
+                    200: function (data) {
+                        document.getElementById('rua').value = data.address_name;
+                        document.getElementById('cidade').value = data.city;
+                        document.getElementById('bairro').value = data.district;
+                        document.getElementById('estado').value = data.state;
+                    },
+                    404: function () {
+                        document.getElementById('rua').value = '';
+                        document.getElementById('cidade').value = '';
+                        document.getElementById('bairro').value = '';
+                        document.getElementById('estado').value = '';
+
+                        // Exibe mensagem de endereço não encontrado
+                        alert('Endereço não encontrado.');
+                        console.log('OPA');
+                    }
+                },
+                error: function () {
+                    console.error('Falha ao obter os dados do endereço.');
+                }
+            });
+        }
+    });
+
+    function salvarEndereco() {
+        $(document).ready(() => {
+            
+            var url = "/admin/adicionar/endereco";
+
+            if ($("#idAddress").val()) {
+                // Se o campo id estiver preenchido, altera o URL para edição
+                url = "/admin/editar/endereco";
+            }
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: {
+                    cep: $("#cepAddress").val(),
+                    number: $("#numero").val(),
+                    id: $("#idAddress").val(),
+                }
+            }).done((data) => {
+                const swalWithReload = Swal.mixin(data);
+                swalWithReload.fire().then((result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
+                        location.reload();
+                    }
+                });
+            });
+        });
+    }
+</script>

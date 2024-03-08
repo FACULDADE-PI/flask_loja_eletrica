@@ -1,0 +1,88 @@
+{% extends 'dashboard/layouts/base.html' %}
+{% block title %} Editar tipos {% endblock %}
+
+{% block content %}
+
+{% include 'dashboard/modals/modal_lancar_endereco.html' %}
+
+ 
+<!-- MAIN CONTENT-->
+
+<body class="animsition">
+    <div class="page-wrapper">
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+                                <h3 class="title-5 m-b-35">Lançar endereços no sistema</h3>
+                                <div class="table-data__tool">
+                                    <div class="table-data__tool-right">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="abrirNovoEndereco()">
+                                            <i class="zmdi zmdi-plus"></i>Adicionar novo endereço</button>
+                                    </div>
+
+                                </div>
+
+
+
+                        <div class="row m-t-30">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
+                                <div class="table-responsive m-b-40">
+                                    <table class="table table-borderless table-data3">
+                                        <thead>
+                                            <tr>
+                                                <th>Cep</th>
+                                                <th>Rua</th>
+                                                <th>Numero</th>
+                                                <th>Bairro</th>
+                                                <th>Cidade</th>
+                                                <th>Data lançamento</th>
+                                                <th>Data entregue</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for ads in address %}
+                                                <tr>
+                                                    <td>{{ads.cep}}</td>
+                                                    <td>{{ads.rua}}</td>
+                                                    <td>{{ads.numero}}</td>
+                                                    <td>{{ads.bairro}}</td>
+                                                    <td>{{ads.cidade}}</td>
+                                                    <td>{{ads.data_lancamento}}</td>
+                                                    {% if ads.data_entrega %}
+                                                        <td>{{ads.data_entrega}}</td>
+                                                    {% else %}
+                                                        <td> Ainda não entregue </td>
+                                                    {% endif %}
+                                                    
+                                                    <td>
+                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Editar" 
+                                                            onclick="abrirModalEdicaoEnderecos('{{ ads.Id }}', '{{ ads.cep }}', '{{ ads.numero }}');">
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- END DATA TABLE-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</body>
+
+
+
+{% endblock %}

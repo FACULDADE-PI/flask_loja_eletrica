@@ -27,7 +27,7 @@ def routes_editar_endereco():
     id_registrado = str(request.form.get("id"))
 
     if not id_registrado.isdigit():
-        address:AddressScanned = AddressScanned.query.filter_by(AddressScanned.Id==int(id_registrado))
+        address:AddressScanned = AddressScanned.query.filter_by(AddressScanned.Id==int(id_registrado)).first()
         cep = request.form.get("cep")
 
         cep = cep.replace("-", "").replace(".", "").replace(" ", "")
